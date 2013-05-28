@@ -1,0 +1,20 @@
+SELECT a.docid, b.docid, SUM(a.count*b.count)
+FROM Frequency a, Frequency b
+WHERE a.term = b.term
+AND a.docid < b.docid
+AND a.docid = '10080_txt_crude'
+AND b.docid = '17035_txt_earn';
+
+... (didn't work)
+
+CREATE VIEW v2 AS
+SELECT a.docid, b.docid, SUM(a.count*b.count)
+FROM Frequency a, Frequency b
+WHERE a.term = b.term
+AND a.docid < b.docid
+GROUP BY a.docid, b.docid
+
+SELECT *
+FROM v
+WHERE a.docid = '10080_txt_crude'
+AND b.docid = '17035_txt_earn';

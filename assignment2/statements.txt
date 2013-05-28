@@ -1,0 +1,28 @@
+select.txt
+SELECT count(term) FROM Frequency WHERE docid = '10398_txt_earn' GROUP BY docid;
+	138
+
+select_project.txt
+SELECT count(docid) FROM Frequency WHERE docid = '10398_txt_earn' AND count=1 GROUP BY docid;
+	110
+
+union.txt
+select count(*) FROM
+(SELECT term FROM Frequency WHERE docid = '10398_txt_earn' AND count=1
+UNION
+SELECT term FROM Frequency WHERE docid = '925_txt_trade' AND count=1);
+	324
+
+count.txt
+SELECT count(docid) FROM Frequency WHERE term = 'parliament';
+	15
+
+big_documents.txt
+SELECT count(*) FROM (SELECT docid, sum(count) FROM Frequency GROUP BY docid HAVING sum(count) > 300 ORDER BY sum(count) desc);
+	107
+
+select count(distinct t1.docid) FROM
+(SELECT docid, term FROM Frequency WHERE term='transactions') t1
+INNER JOIN
+(SELECT docid, term FROM Frequency WHERE term='world') t2 on t1.docid = t2.docid;
+	3

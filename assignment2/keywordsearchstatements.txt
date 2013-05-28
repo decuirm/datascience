@@ -1,0 +1,21 @@
+CREATE VIEW keyview AS
+SELECT * FROM frequency
+UNION
+SELECT 'q' as docid, 'washington' as term, 1 as count 
+UNION
+SELECT 'q' as docid, 'taxes' as term, 1 as count
+UNION 
+SELECT 'q' as docid, 'treasury' as term, 1 as count;
+
+...
+
+CREATE VIEW v2 AS
+SELECT a.docid doc1, b.docid doc2, SUM(a.count*b.count)
+FROM keyview a, keyview b
+WHERE a.term = b.term
+AND a.docid < b.docid
+AND a.count > 1
+GROUP BY a.docid, b.docid
+ORDER BY 3 desc;
+
+select * from v2 where doc1 = 'q' or doc2 = 'q'
